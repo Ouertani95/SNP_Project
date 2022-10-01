@@ -22,5 +22,7 @@ from SNP_App import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.display_base)
+    path('', views.display_base),
+    path('snp_search/', views.search_snp),
+    path('phenotype_search/', views.search_phenotype),
 ]
