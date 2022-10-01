@@ -18,7 +18,7 @@ class DiseaseTrait(models.Model):
     Disease_name = models.CharField(max_length=100)
 
 
-class SNP2Phenotype2Ref(models.Model):
+class Association(models.Model):
     SNP = models.ForeignKey(SNP, on_delete=models.CASCADE)
     Disease_trait = models.ForeignKey(DiseaseTrait, on_delete=models.CASCADE)
     Reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
