@@ -13,22 +13,31 @@
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'jquery_datatable/jquery.dataTables.min_1.12.1.css' %}">
 
+    <!-- Loading JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'jquery_datatable/jquery-3.6.1.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8"
+            src="{% static 'jquery_datatable/jquery.dataTables.min_1.12.1.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'js/custom.js' %}"></script>
+
 </head>
 <body>
 
 <!-- Page Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark mb-5">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand text-center" href="/">
+            <img src="{% static 'pictures/catalog.png' %}" alt="Logo" width="30" height="26" class="d-inline-block align-text-top">
+            CASP
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/" id="home_redirect">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/snp_search" id="snp_redirect"> SNP search </a>
                 </li>
@@ -45,15 +54,6 @@
 <!-- Block for extension -->
 {% block content %}
 {% endblock content %}
-
-<!-- Loading JS libraries -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf8" src="{% static 'jquery_datatable/jquery-3.6.1.min.js' %}"></script>
-<script type="text/javascript" charset="utf8"
-        src="{% static 'jquery_datatable/jquery.dataTables.min_1.12.1.js' %}"></script>
-<script type="text/javascript" charset="utf8" src="{% static 'js/custom.js' %}"></script>
 
 </body>
 </html>
