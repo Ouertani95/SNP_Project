@@ -19,8 +19,8 @@ class DiseaseTrait(models.Model):
 
 
 class SNP2Phenotype2Ref(models.Model):
-    SNP_id = models.ForeignKey(SNP, on_delete=models.CASCADE)
-    Disease_trait_id = models.ForeignKey(DiseaseTrait, on_delete=models.CASCADE)
-    Reference_id = models.ForeignKey(Reference, on_delete=models.CASCADE)
+    SNP = models.ForeignKey(SNP, on_delete=models.CASCADE)
+    Disease_trait = models.ForeignKey(DiseaseTrait, on_delete=models.CASCADE)
+    Reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
     Pvalue = models.FloatField()
     Neglog10pvalue = models.FloatField()
