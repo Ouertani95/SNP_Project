@@ -4,5 +4,25 @@
 
     <h1 class="mt-5 pt-5 text-center"> Welcome to SNP search ! </h1>
     <p class="text-center mt-2"> Here you can search the different SNPs present in the database </p>
-    
+
+    <table id="snp_table" class="display">
+        <caption>Persons</caption>
+        <thead>
+            <tr>
+                <th> Rsid </th>
+                <th> Chromosome name </th>
+                <th> Chromosome position </th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready( function () {
+        $('#snp_table').DataTable();
+    });
+    </script>
+
 {% endblock content %}
