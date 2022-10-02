@@ -25,4 +25,6 @@ urlpatterns = [
     path('', views.display_home),
     path('snp_search/', views.search_snp),
     path('phenotype_search/', views.search_phenotype),
+    path('upload/', views.upload_file),
+    path('success/', views.upload_success)
 ]
