@@ -30,4 +30,5 @@ urlpatterns = [
     path('success/', views.upload_success),
     path("login/", LoginView.as_view(), name='login'),
     path("logout/", LogoutView.as_view(), name='logout'),
+    path('error/', views.upload_error),
 ]
