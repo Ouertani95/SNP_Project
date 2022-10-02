@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django_serverside_datatable.views import ServerSideDatatableView
 
 from .forms import UploadFileForm
+from .models import SNP, DiseaseTrait
 from .scripts.upload_data import FileUploader
 
 
@@ -41,3 +43,14 @@ def upload_success(request):
 
 def upload_error(request):
     return render(request, 'error.html')
+
+
+class SNPListView(ServerSideDatatableView):
+    queryset = SNP.objects.all()
+    columns = ['Chrom', 'Chrom_pos', 'Rsid']
+
+
+class DiseaseTraitListView(ServerSideDatatableView):
+    queryset = DiseaseTrait.objects.all()
+    columns = ['Disease_name']
+

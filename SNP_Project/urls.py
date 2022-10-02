@@ -31,4 +31,6 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name='login'),
     path("logout/", LogoutView.as_view(), name='logout'),
     path('error/', views.upload_error),
+    path('snp_json/', views.SNPListView.as_view(), name='snp_json'),
+    path('pheno_json/', views.DiseaseTraitListView.as_view(), name='pheno_json'),
 ]

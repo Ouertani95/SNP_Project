@@ -22,7 +22,15 @@
 
     <script>
         $(document).ready( function () {
-        $('#snp_table').DataTable();
+        $('#snp_table').DataTable({
+            serverSide: true,
+            sAjaxSource: "{% url 'snp_json' %}",  // new url
+            columns: [
+                {name: "Rsid", data: 2},
+                {name: "Chrom", data: 0},
+                {name: "Chrom_pos", data: 1},
+            ],
+        });
     });
     </script>
 

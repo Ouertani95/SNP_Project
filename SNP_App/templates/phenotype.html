@@ -31,7 +31,13 @@
 
     <script>
         $(document).ready( function () {
-        $('#phenotype_table').DataTable();
+        $('#phenotype_table').DataTable({
+            serverSide: true,
+            sAjaxSource: "{% url 'pheno_json' %}",  // new url
+            columns: [
+                {name: "Disease_name", data: 0},
+            ],
+        });
     });
     </script>
 
