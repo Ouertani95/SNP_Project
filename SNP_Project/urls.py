@@ -16,6 +16,7 @@ Including another URLconf
 
 
 from django.contrib import admin
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from SNP_App import views
@@ -25,6 +26,8 @@ urlpatterns = [
     path('', views.display_home),
     path('snp_search/', views.search_snp),
     path('phenotype_search/', views.search_phenotype),
-    path('upload/', views.upload_file),
-    path('success/', views.upload_success)
+    path('upload/', views.upload_file, name='upload'),
+    path('success/', views.upload_success),
+    path("login/", LoginView.as_view(), name='login'),
+    path("logout/", LogoutView.as_view(), name='logout'),
 ]
