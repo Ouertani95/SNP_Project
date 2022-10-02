@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from .forms import UploadFileForm
-from .scripts.upload_data import upload_file_locally
+from .scripts.upload_data import FileUploader
 
 
 def display_home(request):
@@ -23,12 +23,21 @@ def upload_file(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             # file is saved
-            file_name = upload_file_locally(request.FILES['file'])
-            return redirect("/success/")
+            file_uploader = FileUploader(request.FILES['file'])
+            file_uploader.upload_file_locally()
+            if file_uploader.has_all_fields():
+                file_uploader.upload_content_to_database()
+                return redirect("/success/")
+            else:
+                return redirect("/error/")
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
 
 
 def upload_success(request):
-    return render(request, 'success.html', {'message': "file uploaded successfully"})
+    return render(request, 'success.html')
+
+
+def upload_error(request):
+    return render(request, 'error.html')
