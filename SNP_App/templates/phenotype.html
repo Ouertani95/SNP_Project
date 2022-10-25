@@ -12,15 +12,6 @@
                     <th> Phenotype name </th>
                 </tr>
             </thead>
-                <tr>
-                    <td> dsqdq </td>
-                </tr>
-                <tr>
-                    <td> yjyjy </td>
-                </tr>
-                <tr>
-                    <td> opopp </td>
-                </tr>
             <tbody>
 
             </tbody>
@@ -35,7 +26,7 @@
             serverSide: true,
             sAjaxSource: "{% url 'pheno_json' %}",  // new url
             columns: [
-                {name: "Disease_name", data: 0},
+                {data: 0, render: function (data) {return '<a href="/">' + data + '</a>';},}
             ],
         });
     });
