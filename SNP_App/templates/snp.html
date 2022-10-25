@@ -26,7 +26,7 @@
             serverSide: true,
             sAjaxSource: "{% url 'snp_json' %}",  // new url
             columns: [
-                {data: 2, render: function (data) {return '<a href="/">' + data + '</a>';},},
+                {data: 2, render: function (data) {return '<a href="/snp/details/'+ data +'">' + data + '</a>';},},
                 {name: "Chrom", data: 0},
                 {name: "Chrom_pos", data: 1},
             ],
