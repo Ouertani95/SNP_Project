@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1 class="mt-5 pt-5 mb-5 text-center"> {{ rsid }} </h1>
+
+    <div class="container border border-2 p-2">
+        <table id="snp_details_table" class="display">
+            <thead>
+                <th> Phenotype </th>
+                <th> Pubmedid </th>
+                <th> P_val </th>
+                <th> P_val_Mlog </th>
+            </thead>
+            <tbody>
+                {% for detail in details %}
+                    <tr>
+                    <td><a href="/phenotype/details/{{ detail.Disease_trait_id }}/">
+                            {{ detail.Disease_trait_id }} </a></td>
+                    <td> <a href="https://pubmed.ncbi.nlm.nih.gov/{{ detail.Reference_id }}/">
+                            {{ detail.Reference_id }} </a></td>
+                    <td>{{ detail.Pvalue }}</td>
+                    <td>{{ detail.Neglog10pvalue }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready( function () {
+        $('#snp_details_table').DataTable({
+            "scrollX": true,
+            "autoWidth": false,
+            fixedColumns: true,
+        });
+    });
+    </script>
+
+{% endblock content %}

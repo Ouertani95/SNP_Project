@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django_serverside_datatable.views import ServerSideDatatableView
 
 from .forms import UploadFileForm
-from .models import SNP, DiseaseTrait
+from .models import SNP, DiseaseTrait, Association
 from .scripts.upload_data import FileUploader
 
 
@@ -28,6 +28,7 @@ def upload_file(request):
             file_uploader = FileUploader(request.FILES['file'])
             file_uploader.upload_file_locally()
             if file_uploader.has_all_fields():
+                file_uploader.clean_entries()
                 file_uploader.upload_content_to_database()
                 return redirect("/success/")
             else:
@@ -53,4 +54,14 @@ class SNPListView(ServerSideDatatableView):
 class DiseaseTraitListView(ServerSideDatatableView):
     queryset = DiseaseTrait.objects.all()
     columns = ['Disease_name']
+
+
+def phenotype_details(request, name):
+    phenotype_query = Association.objects.filter(Disease_trait_id=name)
+    return render(request, 'phenotype_details.html', {'details': phenotype_query, 'name': name})
+
+
+def snp_details(request, rsid):
+    snp_query = Association.objects.filter(SNP_id=rsid)
+    return render(request, 'snp_details.html', {'details': snp_query, 'rsid': rsid})
 
