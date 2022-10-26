@@ -15,9 +15,11 @@
             <tbody>
                 {% for detail in details %}
                     <tr>
-                    <td><a href="/phenotype/details/{{ detail.Disease_trait_id }}/">
+                    <td><a target="_blank" rel="noopener noreferrer"
+                           href="/phenotype/details/{{ detail.Disease_trait_id }}/">
                             {{ detail.Disease_trait_id }} </a></td>
-                    <td> <a href="https://pubmed.ncbi.nlm.nih.gov/{{ detail.Reference_id }}/">
+                    <td> <a target="_blank" rel="noopener noreferrer"
+                            href="https://pubmed.ncbi.nlm.nih.gov/{{ detail.Reference_id }}/">
                             {{ detail.Reference_id }} </a></td>
                     <td>{{ detail.Pvalue }}</td>
                     <td>{{ detail.Neglog10pvalue }}</td>

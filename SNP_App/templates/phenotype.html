@@ -26,7 +26,8 @@
             serverSide: true,
             sAjaxSource: "{% url 'pheno_json' %}",  // new url
             columns: [
-                {data: 0, render: function (data) {return '<a href="/phenotype/details/'+ data +'">' + data + '</a>';},}
+                {data: 0, render: function (data) {return '<a target="_blank" rel="noopener noreferrer" ' +
+                        'href="/phenotype/details/'+ data +'">' + data + '</a>';},}
             ],
         });
     });
