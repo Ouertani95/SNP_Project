@@ -24,8 +24,8 @@ from SNP_App import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.display_home),
-    path('snp_search/', views.search_snp),
-    path('phenotype_search/', views.search_phenotype),
+    path('snp_search/', views.search_snp, name='snp_search'),
+    path('phenotype_search/', views.search_phenotype, name='phenotype_search'),
     path('upload/', views.upload_file, name='upload'),
     path('success/', views.upload_success),
     path("login/", LoginView.as_view(), name='login'),
@@ -35,4 +35,7 @@ urlpatterns = [
     path('pheno_json/', views.DiseaseTraitListView.as_view(), name='pheno_json'),
     path('phenotype/details/<str:name>/', views.phenotype_details),
     path('snp/details/<str:rsid>/', views.snp_details),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('services/', views.services, name='services'),
 ]

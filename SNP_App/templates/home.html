@@ -2,7 +2,14 @@
 
 {% block content %}
 
-    <h1 class="mt-5 pt-5 text-center"> Welcome to CASP !</h1>
-    <p class="text-center mt-2"> This website is used to search data about SNPs and Phenotypes</p>
+    <!-- Header-->
+    <header class="bg-dark bg-gradient text-white">
+        <div class="container px-4 text-center">
+            <h1 class="fw-bolder">Welcome to CASP !</h1>
+            <p class="lead">This website is used to search data about SNPs and Phenotypes.</p>
+            <a class="btn btn-lg btn-light me-2" href="{% url 'snp_search' %}">Search SNPs</a>
+            <a class="btn btn-lg btn-light" href="{% url 'phenotype_search' %}">Search phenotypes</a>
+        </div>
+    </header>
 
 {% endblock content %}

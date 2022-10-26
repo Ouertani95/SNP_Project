@@ -65,3 +65,15 @@ def snp_details(request, rsid):
     snp_query = Association.objects.filter(SNP_id=rsid)
     return render(request, 'snp_details.html', {'details': snp_query, 'rsid': rsid})
 
+
+def about(request):
+    return render(request, 'about.html')
+
+
+def contact(request):
+    return render(request, 'contact.html')
+
+
+def services(request):
+    return render(request, 'services.html')
+
