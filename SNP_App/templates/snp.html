@@ -38,6 +38,7 @@
             $('#snp_table tfoot tr').prependTo('#snp_table thead');
 
             var table = $('#snp_table').DataTable({
+                searching:true,
                 processing: true,
                 serverSide: true,
                 sAjaxSource: "{% url 'snp_json' %}",  // new url
@@ -50,12 +51,9 @@
                 ],
                 initComplete: function () {
                 // Apply the search
-                this.api()
-                    .columns()
-                    .every(function () {
+                this.api().columns().every(function () {
                         var that = this;
-
-                        $('input', this.header()).on('keyup change clear', function () {
+                        $('input', this.footer()).on('keyup change clear', function () {
                             if (that.search() !== this.value) {
                                 that.search(this.value).draw();
                             }

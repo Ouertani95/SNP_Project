@@ -23,6 +23,7 @@
     <script>
         $(document).ready( function () {
         $('#phenotype_table').DataTable({
+            processing: true,
             serverSide: true,
             sAjaxSource: "{% url 'pheno_json' %}",  // new url
             columns: [
