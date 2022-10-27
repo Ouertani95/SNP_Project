@@ -34,11 +34,10 @@
                 var title = $(this).text();
                 $(this).html('<input type="text" placeholder="Search ' + title + '" />');
             });
-            // Prepend search fields to header
-            $('#snp_table tfoot tr').prependTo('#snp_table thead');
+            {#// Prepend search fields to header#}
+            {#$('#snp_table tfoot tr').prependTo('#snp_table thead');#}
 
             var table = $('#snp_table').DataTable({
-                searching:true,
                 processing: true,
                 serverSide: true,
                 sAjaxSource: "{% url 'snp_json' %}",  // new url
