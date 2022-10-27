@@ -68,8 +68,9 @@ class FileUploader:
                                          , delimiter="\t"
                                          , dtype={'CHR_ID': str, 'CHR_POS': str})
         uploaded_dataframe = uploaded_dataframe.dropna(subset=self.REQUIRED_FIELDS)
-        uploaded_dataframe = uploaded_dataframe[uploaded_dataframe.CHR_ID.apply(lambda x: x.isnumeric())]
         uploaded_dataframe = uploaded_dataframe[uploaded_dataframe.CHR_POS.apply(lambda x: x.isnumeric())]
+        uploaded_dataframe['CHR_POS'] = uploaded_dataframe['CHR_POS'].str.replace(" ", "")
+        uploaded_dataframe['CHR_POS'] = uploaded_dataframe['CHR_POS'].astype(int)
         clean_file_name = "cleaned_"+self.upload_name
         uploaded_dataframe.to_csv(path_or_buf=f'SNP_App/uploads/{clean_file_name}', sep="\t", index=False)
         self.upload_name = clean_file_name

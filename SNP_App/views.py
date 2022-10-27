@@ -48,7 +48,7 @@ def upload_error(request):
 
 class SNPListView(ServerSideDatatableView):
     queryset = SNP.objects.all()
-    columns = ['Chrom', 'Chrom_pos', 'Rsid']
+    columns = ['Rsid', 'Chrom', 'Chrom_pos']
 
 
 class DiseaseTraitListView(ServerSideDatatableView):
