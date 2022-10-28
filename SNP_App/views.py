@@ -8,15 +8,15 @@ from .scripts.upload_data import FileUploader
 
 
 def display_home(request):
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'title': "Home"})
 
 
 def search_snp(request):
-    return render(request, 'snp.html')
+    return render(request, 'snp.html', {'title': "SNP search"})
 
 
 def search_phenotype(request):
-    return render(request, 'phenotype.html')
+    return render(request, 'phenotype.html', {'title': "Phenotype Search"})
 
 
 @login_required(login_url='/login/')
@@ -35,15 +35,15 @@ def upload_file(request):
                 return redirect("/error/")
     else:
         form = UploadFileForm()
-    return render(request, 'upload.html', {'form': form})
+    return render(request, 'upload.html', {'form': form, 'title': "upload"})
 
 
 def upload_success(request):
-    return render(request, 'success.html')
+    return render(request, 'success.html', {'title': "success"})
 
 
 def upload_error(request):
-    return render(request, 'error.html')
+    return render(request, 'error.html', {'title': "error"})
 
 
 class SNPListView(ServerSideDatatableView):
@@ -58,22 +58,22 @@ class DiseaseTraitListView(ServerSideDatatableView):
 
 def phenotype_details(request, name):
     phenotype_query = Association.objects.filter(Disease_trait_id=name)
-    return render(request, 'phenotype_details.html', {'details': phenotype_query, 'name': name})
+    return render(request, 'phenotype_details.html', {'details': phenotype_query, 'name': name, 'title': name})
 
 
 def snp_details(request, rsid):
     snp_query = Association.objects.filter(SNP_id=rsid)
-    return render(request, 'snp_details.html', {'details': snp_query, 'rsid': rsid})
+    return render(request, 'snp_details.html', {'details': snp_query, 'rsid': rsid, 'title': rsid})
 
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, 'about.html', {'title': "About"})
 
 
 def contact(request):
-    return render(request, 'contact.html')
+    return render(request, 'contact.html', {'title': "Contact"})
 
 
 def services(request):
-    return render(request, 'services.html')
+    return render(request, 'services.html', {'title': "Services"})
 
