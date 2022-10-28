@@ -10,6 +10,7 @@ $(document).ready(function() {
         }
         else if (pathname==="/snp_search/"){
                 $("#snp_redirect").addClass("active");
+                $("#snp_table_length").addClass("mb-5");
                 document.title = "SNP search";
         }
         else if (pathname==="/about/"){
