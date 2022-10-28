@@ -7,38 +7,24 @@
     <div class="container border border-2 pt-2 mb-5 bg-light">
         <table id="snp_table" class="table table-striped table-light">
             <thead>
-                <tr>
-                    <th> Rsid </th>
-                    <th> Chromosome name </th>
-                    <th> Chromosome position </th>
+                <tr id="snp_inputs">
+                    <th> Rsid <br> <input type="text" class="mt-2" placeholder="Search Rsid" /> </th>
+                    <th> Chromosome name <br> <input type="text" class="mt-2" placeholder="Search name" /> </th>
+                    <th> Chromosome position <br> <input type="text" class="mt-2" placeholder="Search position" /> </th>
                 </tr>
             </thead>
             <tbody>
 
             </tbody>
-            <tfoot>
-            <tr>
-                <th> Rsid </th>
-                <th> Chromosome name </th>
-                <th> Chromosome position </th>
-            </tr>
-        </tfoot>
         </table>
     </div>
 
 
     <script>
         $(document).ready( function () {
-            // Setup - add a text input to each footer cell
-            $('#snp_table tfoot th').each(function () {
-                var title = $(this).text();
-                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-            });
-            {#// Prepend search fields to header#}
-            {#$('#snp_table tfoot tr').prependTo('#snp_table thead');#}
 
             var table = $('#snp_table').DataTable({
-                processing: true,
+                dom: 'lrtip',
                 serverSide: true,
                 sAjaxSource: "{% url 'snp_json' %}",  // new url
                 columns: [
@@ -52,10 +38,13 @@
                 // Apply the search
                 this.api().columns().every(function () {
                         var that = this;
-                        $('input', this.footer()).on('keyup change clear', function () {
+                        $('input', this.header()).on('keyup change clear', function () {
                             if (that.search() !== this.value) {
                                 that.search(this.value).draw();
                             }
+                        });
+                        $('input', this.header()).on('click', function(e) {
+                            e.stopPropagation();
                         });
                     });
                 },
