@@ -1,3 +1,5 @@
 Django==4.1.1
 django_serverside_datatable==2.0.0
+numpy==1.23.3
 pandas==1.5.0
+django-lockdown==4.0.0
