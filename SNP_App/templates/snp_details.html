@@ -7,10 +7,16 @@
     <div class="container p-2 mb-5">
         <table id="snp_details_table" class="table table-striped table-bordered">
             <thead class="table-dark">
-                <th> Phenotype </th>
-                <th> Pubmedid </th>
-                <th> P_val </th>
-                <th> P_val_Mlog </th>
+                <th> Related phenotype <i class="bi bi-info-circle text-info"
+                               data-bs-toggle="tooltip" data-bs-placement="top"
+                               title="Name of the phenotype proven to have an association with the variant"></i></th>
+                <th> Study article <i class="bi bi-info-circle text-info"
+                               data-bs-toggle="tooltip" data-bs-placement="top"
+                               title="Pubmedid and link of the study article mentioning the association between the variant and the phenotype"></i></th>
+                <th> P-value <i class="bi bi-info-circle text-info"
+                               data-bs-toggle="tooltip" data-bs-placement="top"
+                               title="Reported p-value for strongest SNP risk allele (linked to dbGaP Association Browser)"></i></th>
+                <th> -log10 (P-value) </th>
             </thead>
             <tbody>
                 {% for detail in details %}
