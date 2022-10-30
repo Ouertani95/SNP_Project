@@ -5,6 +5,13 @@
     <h1 class="mt-5 pt-5 mb-5 text-center"> {{ name }} </h1>
 
     <div class="container p-2 mb-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Phenotype</li>
+                <li class="breadcrumb-item">Details</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ name }}</li>
+            </ol>
+        </nav>
         <div class="row mb-3">
             <div class="accordion " id="accordionPanelsStayOpenExample">
                 <div class="accordion-item">
