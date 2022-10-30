@@ -58,14 +58,18 @@ class DiseaseTraitListView(ServerSideDatatableView):
 
 def phenotype_details(request, name):
     phenotype_query = Association.objects.filter(Disease_trait_id=name)
-    return render(request, 'phenotype_details.html', {'details': phenotype_query, 'name': name, 'title': name})
+    number_studies = Association.objects.filter(Disease_trait_id=name).values('Reference').distinct().count()
+    return render(request, 'phenotype_details.html',
+                  {'details': phenotype_query, 'name': name, 'title': name, 'studies': number_studies})
 
 
 def snp_details(request, rsid):
     association_query = Association.objects.filter(SNP_id=rsid)
     snp_query = SNP.objects.get(Rsid=rsid)
+    number_studies = Association.objects.filter(SNP_id=rsid).values('Reference').distinct().count()
     return render(request, 'snp_details.html',
-                  {'details': association_query, 'rsid': rsid, 'title': rsid, 'snp': snp_query})
+                  {'details': association_query, 'rsid': rsid,
+                   'title': rsid, 'snp': snp_query, 'studies': number_studies})
 
 
 def about(request):
