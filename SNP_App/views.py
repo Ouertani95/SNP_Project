@@ -62,8 +62,10 @@ def phenotype_details(request, name):
 
 
 def snp_details(request, rsid):
-    snp_query = Association.objects.filter(SNP_id=rsid)
-    return render(request, 'snp_details.html', {'details': snp_query, 'rsid': rsid, 'title': rsid})
+    association_query = Association.objects.filter(SNP_id=rsid)
+    snp_query = SNP.objects.get(Rsid=rsid)
+    return render(request, 'snp_details.html',
+                  {'details': association_query, 'rsid': rsid, 'title': rsid, 'snp': snp_query})
 
 
 def about(request):

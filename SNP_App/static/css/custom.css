@@ -1,2 +1,9 @@
-.dataTables_filter {margin-bottom: 20px;}
-.dataTables_length {margin-bottom: 20px;}
+/* distance between datable and widgets above */
+.dataTables_filter, .dataTables_length  {margin-bottom: 20px;}
+
+/* change color of accordion header when open */
+.accordion-button:not(.collapsed) {
+  background-color: #ded8de;
+  color: #212529;
+  text-align: center;
+}

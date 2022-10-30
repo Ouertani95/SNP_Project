@@ -5,44 +5,101 @@
     <h1 class="mt-5 pt-5 mb-5 text-center"> {{ name }} </h1>
 
     <div class="container p-2 mb-5">
-        <table id="phenotype_details_table" class="table table-striped table-bordered">
-            <thead class="table-dark text-center">
-                <th> Related phenotype <i class="bi bi-info-circle text-info"
-                               data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Rsid of the variant proven to have an association with the phenotype"></i></th>
-                <th> Study article <i class="bi bi-info-circle text-info"
-                               data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Pubmedid and link of the study article mentioning the association between the phenotype and the variant"></i></th>
-                <th> P-value <i class="bi bi-info-circle text-info"
-                               data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Reported p-value for strongest SNP risk allele (linked to dbGaP Association Browser)"></i></th>
-                <th> -log10 (P-value) </th>
-            </thead>
-            <tbody>
-                {% for detail in details %}
-                    <tr>
-                    <td><a target="_blank" rel="noopener noreferrer"
-                           href="/snp/details/{{ detail.SNP_id }}/">
-                        {{ detail.SNP_id }}</a></td>
-                    <td> <a target="_blank" rel="noopener noreferrer"
-                            href="https://pubmed.ncbi.nlm.nih.gov/{{ detail.Reference_id }}/" >
-                        {{ detail.Reference_id }}</a></td>
-                    <td>{{ detail.Pvalue|stringformat:".2e" }}</td>
-                    <td>{{ detail.Neglog10pvalue }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="row mb-3">
+            <div class="accordion " id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                            <b>Information</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                         aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <div class="container p-2">
+                                <div class="row gy-2">
+                                    <div class="col-6">
+                                        <b>Number of variant associations : </b>
+                                        {{ details|length }}
+                                    </div>
+                                    <div class="col-6">
+                                        <b>Number of related studies : </b>
+                                        {{ details|length }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="accordion" id="accordionAssociations">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="accordionAssociationsHeader">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-accordionAssociations" aria-expanded="true"
+                                aria-controls="panelsStayOpen-accordionAssociations">
+                            <b>Associations</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-accordionAssociations" class="accordion-collapse collapse show"
+                         aria-labelledby="accordionAssociationsHeader">
+                        <div class="accordion-body">
+                            <div class="container p-2">
+                                <div class="row gy-2">
+                                    <table id="phenotype_details_table" class="table table-striped table-bordered">
+                                        <thead class="table-dark text-center">
+                                        <th> Related variant <i class="bi bi-info-circle text-info"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Rsid of the variant proven to have an association with the phenotype"></i>
+                                        </th>
+                                        <th> Study article <i class="bi bi-info-circle text-info"
+                                                              data-bs-toggle="tooltip" data-bs-placement="top"
+                                                              title="Pubmedid and link of the study article mentioning the association between the phenotype and the variant"></i>
+                                        </th>
+                                        <th> P-value <i class="bi bi-info-circle text-info"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Reported p-value for strongest SNP risk allele (linked to dbGaP Association Browser)"></i>
+                                        </th>
+                                        <th> -log10 (P-value)</th>
+                                        </thead>
+                                        <tbody>
+                                        {% for detail in details %}
+                                            <tr>
+                                                <td><a target="_blank" rel="noopener noreferrer"
+                                                       href="/snp/details/{{ detail.SNP_id }}/">
+                                                    {{ detail.SNP_id }}</a></td>
+                                                <td><a target="_blank" rel="noopener noreferrer"
+                                                       href="https://pubmed.ncbi.nlm.nih.gov/{{ detail.Reference_id }}/">
+                                                    {{ detail.Reference_id }}</a></td>
+                                                <td>{{ detail.Pvalue|stringformat:".2e" }}</td>
+                                                <td>{{ detail.Neglog10pvalue }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <script>
-        $(document).ready( function () {
-        $('#phenotype_details_table').DataTable({
-            "scrollX": true,
-            "autoWidth": false,
-            fixedColumns: true,
+        $(document).ready(function () {
+            $('#phenotype_details_table').DataTable({
+                "scrollX": true,
+                "autoWidth": false,
+                fixedColumns: true,
+            });
         });
-    });
     </script>
 
 {% endblock content %}
