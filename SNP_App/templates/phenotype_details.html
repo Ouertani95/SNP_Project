@@ -10,6 +10,28 @@
         <b>Number of related studies : </b>
         {{ studies }}
     </div>
+    <div class="col-6">
+        <b>Strongest association(s) : </b>
+        {% if snp_min_pvalue|length == 1 %}
+
+            <a target="_blank" rel="noopener noreferrer"
+               href="/snp/details/{{ snp_min_pvalue.first.SNP_id }}/">
+                {{ snp_min_pvalue.first.SNP_id}} </a>
+
+        {% else %}
+
+            {% for snp in snp_min_pvalue %}
+                <a target="_blank" rel="noopener noreferrer"
+               href="/snp/details/{{ snp.SNP_id }}/">
+                {{ snp.SNP_id }} </a>,
+            {% endfor %}
+
+        {% endif %}
+    </div>
+    <div class="col-6">
+        <b>Corresponding p-value : </b>
+        {{ min_pvalue.Pvalue__min|stringformat:".2e" }}
+    </div>
 {% endblock info %}
 
 {% block table %}

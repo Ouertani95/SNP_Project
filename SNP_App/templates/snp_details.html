@@ -17,6 +17,28 @@
         <b>Number of related studies : </b>
         {{ studies }}
     </div>
+    <div class="col-6">
+        <b>Strongest association(s) : </b>
+        {% if phenotype_min_pvalue|length == 1 %}
+
+            <a target="_blank" rel="noopener noreferrer"
+               href="/phenotype/details/{{ phenotype_min_pvalue.first.Disease_trait_id }}/">
+                {{ phenotype_min_pvalue.first.Disease_trait_id}} </a>
+
+        {% else %}
+
+            {% for phenotype in phenotype_min_pvalue %}
+                <a target="_blank" rel="noopener noreferrer"
+               href="/phenotype/details/{{ phenotype.Disease_trait_id }}/">
+                {{ phenotype.Disease_trait_id }} </a>,
+            {% endfor %}
+
+        {% endif %}
+    </div>
+    <div class="col-6">
+        <b>Corresponding p-value : </b>
+        {{ min_pvalue.Pvalue__min|stringformat:".2e" }}
+    </div>
 {% endblock info %}
 
 {% block table %}

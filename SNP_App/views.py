@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Max, Min
 from django.shortcuts import render, redirect
 from django_serverside_datatable.views import ServerSideDatatableView
 
@@ -58,19 +59,25 @@ class DiseaseTraitListView(ServerSideDatatableView):
 
 def phenotype_details(request, name):
     phenotype_query = Association.objects.filter(Disease_trait_id=name)
-    number_studies = Association.objects.filter(Disease_trait_id=name).values('Reference').distinct().count()
+    min_pvalue = phenotype_query.aggregate(Min('Pvalue'))
+    snp_min_pvalue = phenotype_query.filter(Pvalue=min_pvalue['Pvalue__min'])
+    number_studies = phenotype_query.values('Reference').distinct().count()
     return render(request, 'phenotype_details.html',
                   {'details': phenotype_query, 'detail_name': name, 'detail_type': 'Phenotype',
-                   'title': name, 'studies': number_studies})
+                   'title': name, 'studies': number_studies, 'min_pvalue': min_pvalue,
+                   'snp_min_pvalue': snp_min_pvalue})
 
 
 def snp_details(request, rsid):
     association_query = Association.objects.filter(SNP_id=rsid)
     snp_query = SNP.objects.get(Rsid=rsid)
-    number_studies = Association.objects.filter(SNP_id=rsid).values('Reference').distinct().count()
+    min_pvalue = association_query.aggregate(Min('Pvalue'))
+    phenotype_min_pvalue = association_query.filter(Pvalue=min_pvalue['Pvalue__min'])
+    number_studies = association_query.values('Reference').distinct().count()
     return render(request, 'snp_details.html',
                   {'details': association_query, 'detail_name': rsid, 'detail_type': 'SNP',
-                   'title': rsid, 'studies': number_studies, 'snp': snp_query})
+                   'title': rsid, 'studies': number_studies, 'snp': snp_query,
+                   'min_pvalue': min_pvalue, 'phenotype_min_pvalue': phenotype_min_pvalue})
 
 
 def about(request):
