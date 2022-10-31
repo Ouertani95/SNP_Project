@@ -60,7 +60,8 @@ def phenotype_details(request, name):
     phenotype_query = Association.objects.filter(Disease_trait_id=name)
     number_studies = Association.objects.filter(Disease_trait_id=name).values('Reference').distinct().count()
     return render(request, 'phenotype_details.html',
-                  {'details': phenotype_query, 'name': name, 'title': name, 'studies': number_studies})
+                  {'details': phenotype_query, 'detail_name': name, 'detail_type': 'Phenotype',
+                   'title': name, 'studies': number_studies})
 
 
 def snp_details(request, rsid):
@@ -68,8 +69,8 @@ def snp_details(request, rsid):
     snp_query = SNP.objects.get(Rsid=rsid)
     number_studies = Association.objects.filter(SNP_id=rsid).values('Reference').distinct().count()
     return render(request, 'snp_details.html',
-                  {'details': association_query, 'rsid': rsid,
-                   'title': rsid, 'snp': snp_query, 'studies': number_studies})
+                  {'details': association_query, 'detail_name': rsid, 'detail_type': 'SNP',
+                   'title': rsid, 'studies': number_studies, 'snp': snp_query})
 
 
 def about(request):

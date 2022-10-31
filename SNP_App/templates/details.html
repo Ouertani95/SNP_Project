@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1 class="mt-5 pt-5 mb-5 text-center"> {{ detail_name }} </h1>
+
+    <div class="container p-2 mb-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">{{ detail_type }}</li>
+                <li class="breadcrumb-item">Details</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ detail_name }}</li>
+            </ol>
+        </nav>
+        <div class="row mb-3">
+            <div class="accordion " id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                            <b>Information</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                         aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <div class="container p-2">
+                                <div class="row gy-2">
+                                    {% block info %}
+                                    {% endblock info %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="accordion" id="accordionAssociations">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="accordionAssociationsHeader">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-accordionAssociations" aria-expanded="true"
+                                aria-controls="panelsStayOpen-accordionAssociations">
+                            <b>Associations</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-accordionAssociations" class="accordion-collapse collapse show"
+                         aria-labelledby="accordionAssociationsHeader">
+                        <div class="accordion-body">
+                            <div class="container p-2">
+                                <div class="row gy-2">
+                                    {% block table %}
+                                    {% endblock table %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% block table_script %}
+    {% endblock table_script %}
+
+{% endblock content %}
