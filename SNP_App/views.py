@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Max, Min
+from django.db.models import Min
 from django.shortcuts import render, redirect
 from django_serverside_datatable.views import ServerSideDatatableView
 
@@ -90,4 +90,3 @@ def contact(request):
 
 def services(request):
     return render(request, 'services.html', {'title': "Services"})
-

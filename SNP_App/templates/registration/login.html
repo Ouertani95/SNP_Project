@@ -2,11 +2,41 @@
 
 {% block content %}
 
-  <h2  class="mt-5 mb-5 pt-5 text-center">Login</h2>
-  <form method="post" class="text-center">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-dark text-center">Login</button>
-  </form>
+    <h1 class="mt-5 mb-5 pt-5 text-center"> User login </h1>
+
+    <form method="post" class="text-center mt-3">
+        {% csrf_token %}
+        <div class="container p-2 mt-3">
+            <div class="row justify-content-center text-start">
+                <div class="col-4">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">{{ form.username.label }}</span>
+                        {{ form.username }}
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon2">{{ form.password.label }} </span>
+                        {{ form.password }}
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <button type="submit" class="btn btn-dark text-center">Login</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $("#id_username").addClass("form-control")
+                .attr("aria-describedby","basic-addon1");
+            $("#id_password").addClass("form-control")
+                .attr("aria-describedby","basic-addon2");
+        });
+    </script>
+
 
 {% endblock content %}
