@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from csv import DictReader
 
@@ -39,6 +40,7 @@ class FileUploader:
         uploaded_dataframe['PVALUE_MLOG'] = uploaded_dataframe['PVALUE_MLOG'].round(2)
         clean_file_name = "cleaned_"+self.upload_name
         uploaded_dataframe.to_csv(path_or_buf=f'SNP_App/uploads/{clean_file_name}', sep="\t", index=False)
+        self.original_name = self.upload_name
         self.upload_name = clean_file_name
 
     def upload_content_to_database(self):
@@ -68,3 +70,11 @@ class FileUploader:
                 if not association_query:
                     Association(SNP=snp_id, Disease_trait=disease_trait_id, Reference=reference_id,
                                 Pvalue=row['P-VALUE'], Neglog10pvalue=row['PVALUE_MLOG']).save()
+
+    def remove_files(self):
+        original_file_path = f'SNP_App/uploads/{self.original_name}'
+        cleaned_file_path = f'SNP_App/uploads/{self.upload_name}'
+        if os.path.exists(original_file_path):
+            os.remove(original_file_path)
+        if os.path.exists(cleaned_file_path):
+            os.remove(cleaned_file_path)

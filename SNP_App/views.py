@@ -31,6 +31,7 @@ def upload_file(request):
             if file_uploader.has_all_fields():
                 file_uploader.clean_entries()
                 file_uploader.upload_content_to_database()
+                file_uploader.remove_files()
                 return redirect("/success/")
             else:
                 return redirect("/error/")
