@@ -34,6 +34,7 @@ def upload_file(request):
                 file_uploader.remove_files()
                 return redirect("/success/")
             else:
+                file_uploader.remove_files()
                 return redirect("/error/")
     else:
         form = UploadFileForm()
