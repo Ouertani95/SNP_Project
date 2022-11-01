@@ -1,6 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
-from SNP_App.scripts.upload_data_cli import FileUploader
+from SNP_App.scripts.upload_data import FileUploader
 
 
 class Command(BaseCommand):
@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         file_path = options['file_path'][0]
         self.stdout.write(file_path)
-        file_uploader = FileUploader(file_path)
+        file_uploader = FileUploader(file_path, cli_input=True)
         self.stdout.write("Uploading file ...")
         file_uploader.upload_file_locally()
         self.stdout.write("File uploaded successfully !")

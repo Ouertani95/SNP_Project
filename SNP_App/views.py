@@ -26,7 +26,7 @@ def upload_file(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             # file is saved
-            file_uploader = FileUploader(request.FILES['file'])
+            file_uploader = FileUploader(request.FILES['file'], cli_input=False)
             file_uploader.upload_file_locally()
             if file_uploader.has_all_fields():
                 file_uploader.clean_entries()

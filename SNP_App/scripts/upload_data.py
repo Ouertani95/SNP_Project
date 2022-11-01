@@ -1,4 +1,5 @@
 import os
+import shutil
 from datetime import datetime
 from csv import DictReader
 
@@ -10,15 +11,22 @@ class FileUploader:
     REQUIRED_FIELDS = ["PUBMEDID", "JOURNAL", "STUDY", "DATE", "CHR_ID", "CHR_POS", "SNPS", "DISEASE/TRAIT", "P-VALUE",
                        "PVALUE_MLOG"]
 
-    def __init__(self, request_file):
+    def __init__(self, request_file, cli_input):
+        self.cli_input = cli_input
         self.file = request_file
-        self.original_name = request_file.name
-        self.upload_name = f"{datetime.now().strftime('%Y_%m_%d_%X')}_{request_file.name}"
+        if cli_input:
+            self.original_name = os.path.basename(self.file)
+        else:
+            self.original_name = request_file.name
+        self.upload_name = f"{datetime.now().strftime('%Y_%m_%d_%X')}_{self.original_name}"
 
     def upload_file_locally(self):
-        with open(f"SNP_App/uploads/{self.upload_name}", 'wb+') as destination:
-            for chunk in self.file.chunks():
-                destination.write(chunk)
+        if self.cli_input:
+            shutil.copy2(self.file, f'SNP_App/uploads/{self.upload_name}')
+        else:
+            with open(f"SNP_App/uploads/{self.upload_name}", 'wb+') as destination:
+                for chunk in self.file.chunks():
+                    destination.write(chunk)
 
     def has_all_fields(self):
         with open(f'SNP_App/uploads/{self.upload_name}', 'r') as read_obj:
