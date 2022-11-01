@@ -32,10 +32,10 @@ def upload_file(request):
                 file_uploader.clean_entries()
                 file_uploader.upload_content_to_database()
                 file_uploader.remove_files()
-                return redirect("/success/")
+                return redirect("/upload/success/")
             else:
                 file_uploader.remove_files()
-                return redirect("/error/")
+                return redirect("/upload/error/")
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form, 'title': "upload"})
@@ -46,7 +46,8 @@ def upload_success(request):
 
 
 def upload_error(request):
-    return render(request, 'error.html', {'title': "error"})
+    required = FileUploader.REQUIRED_FIELDS
+    return render(request, 'error.html', {'title': "error", 'required': required})
 
 
 class SNPListView(ServerSideDatatableView):
