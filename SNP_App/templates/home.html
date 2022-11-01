@@ -4,11 +4,19 @@
 
     <!-- Header-->
     <header class="bg-dark bg-gradient text-white">
-        <div class="container px-4 text-center">
-            <h1 class="fw-bolder">Welcome to CASP !</h1>
-            <p class="lead">This website is used to search data about SNPs and Phenotypes.</p>
-            <a class="btn btn-lg btn-light me-2" href="{% url 'snp_search' %}">Search SNPs</a>
-            <a class="btn btn-lg btn-light" href="{% url 'phenotype_search' %}">Search phenotypes</a>
+        <div class="container px-5 text-center">
+            <div class="row">
+                <h1 class="fw-bolder">Welcome to CASP !</h1>
+                <p class="lead">This website is used to search data about SNPs and Phenotypes.</p>
+            </div>
+            <div class="row justify-content-center pt-3">
+                <div class="col-3 pe-0">
+                    <a class="btn btn-lg btn-light me-2" href="{% url 'snp_search' %}">Search SNPs</a>
+                </div>
+                <div class="col-3 ps-0">
+                    <a class="btn btn-lg btn-light" href="{% url 'phenotype_search' %}">Search phenotypes</a>
+                </div>
+            </div>
         </div>
     </header>
 

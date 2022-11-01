@@ -5,54 +5,62 @@
     <h1 class="text-center mt-5 pt-5"> SNP search </h1>
     <p class="text-center"> Here you can search the different SNPs present in the database </p>
     <div class="container pt-2 mb-5">
-        <table id="snp_table" class="table table-striped table-bordered">
-            <thead class="table-dark">
-                <tr id="snp_inputs">
-                    <th > SNP <i class="bi bi-info-circle text-info"
-                               data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Rsid of the variant"></i>
-                        <br> <input type="text" class="mt-2" placeholder="Search rsid" /> </th>
-                    <th > Chromosome    <i class="bi bi-info-circle text-info"
-                               data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Name of the chromosome containing the variant"></i>
-                        <br> <input type="text" class="mt-2" placeholder="Search chromosome" /> </th>
-                    <th > Chromosome position <i class="bi bi-info-circle text-info"
-                               data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="Exact position of the variant inside the containing chromosome"></i>
-                        <br> <input type="text" class="mt-2" placeholder="Search position" /> </th>
-                </tr>
-            </thead>
-            <tbody >
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <table id="snp_table" class="table table-striped table-bordered shadow-lg rounded">
+                    <thead class="table-dark rounded">
+                    <tr id="snp_inputs">
+                        <th> SNP <i class="bi bi-info-circle text-info"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="Rsid of the variant"></i>
+                            <br> <input type="text" class="mt-2" placeholder="Search rsid"/></th>
+                        <th> Chromosome <i class="bi bi-info-circle text-info"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="Name of the chromosome containing the variant"></i>
+                            <br> <input type="text" class="mt-2" placeholder="Search chromosome"/></th>
+                        <th> Chromosome position <i class="bi bi-info-circle text-info"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Exact position of the variant inside the containing chromosome"></i>
+                            <br> <input type="text" class="mt-2" placeholder="Search position"/></th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
 
     <script>
-        $(document).ready( function () {
+        $(document).ready(function () {
 
             var table = $('#snp_table').DataTable({
                 dom: 'lrtip',
                 serverSide: true,
                 sAjaxSource: "{% url 'snp_json' %}",  // new url
                 columns: [
-                    {name: "Rsid",data: 0, render: function (data)
-                        {return '<a target="_blank" rel="noopener noreferrer" ' +
-                            'href="/snp/details/'+ data +'">' + data + '</a>';},},
+                    {
+                        name: "Rsid", data: 0, render: function (data) {
+                            return '<a target="_blank" rel="noopener noreferrer" ' +
+                                'href="/snp/details/' + data + '">' + data + '</a>';
+                        },
+                    },
                     {name: "Chrom", data: 1},
                     {name: "Chrom_pos", data: 2},
                 ],
                 initComplete: function () {
-                // Apply the search
-                this.api().columns().every(function () {
+                    // Apply the search
+                    this.api().columns().every(function () {
                         var that = this;
                         $('input', this.header()).on('keyup change clear', function () {
                             if (that.search() !== this.value) {
                                 that.search(this.value).draw();
                             }
                         });
-                        $('input', this.header()).on('click', function(e) {
+                        $('input', this.header()).on('click', function (e) {
                             e.stopPropagation();
                         });
                     });
