@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Min
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django_serverside_datatable.views import ServerSideDatatableView
 
@@ -32,22 +33,17 @@ def upload_file(request):
                 file_uploader.clean_entries()
                 file_uploader.upload_content_to_database()
                 file_uploader.remove_files()
-                return redirect("/upload/success/")
+                return JsonResponse({"error": "", "success": "Data successfully added to database"})
             else:
                 file_uploader.remove_files()
-                return redirect("/upload/error/")
+                return JsonResponse({"error": "Wrong file format !<br>"
+                                              "Please verify that your file contains at least the following fields:<br> "
+                                              "PUBMEDID, JOURNAL, STUDY, DATE, CHR_ID, CHR_POS, SNPS, "
+                                              "DISEASE/TRAIT, P-VALUE,PVALUE_MLOG",
+                                     "success": ""})
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form, 'title': "upload"})
-
-
-def upload_success(request):
-    return render(request, 'success.html', {'title': "success"})
-
-
-def upload_error(request):
-    required = FileUploader.REQUIRED_FIELDS
-    return render(request, 'error.html', {'title': "error", 'required': required})
 
 
 class SNPListView(ServerSideDatatableView):
