@@ -7,23 +7,23 @@
     <form action="" method="post" class="mt-5 pt-5 text-center" enctype="multipart/form-data" id="upload_form">
         {% csrf_token %}
         <div class="container p-2">
-            <div class="row mb-3 justify-content-center text-center">
+            <div class="row mb-3 justify-content-center text-center d-none" id="success_row">
                 <div class="col-4">
-                    <div class="alert alert-success visually-hidden" role="alert" id="success">
+                    <div class="alert alert-success" role="alert" id="success">
 
                     </div>
                 </div>
             </div>
-            <div class="row mb-3 justify-content-center text-center">
+            <div class="row mb-3 justify-content-center text-center d-none" id="error_row">
                 <div class="col-8">
-                    <div class="alert alert-danger visually-hidden" role="alert" id="error">
+                    <div class="alert alert-danger" role="alert" id="error">
 
                     </div>
                 </div>
             </div>
-            <div class="row mb-3 justify-content-center text-center">
+            <div class="row mb-3 justify-content-center text-center d-none" id="waiting_row">
                 <div class="col-">
-                    <button class="btn btn-primary btn-lg visually-hidden" type="button" disabled id="waiting">
+                    <button class="btn btn-primary btn-lg" type="button" disabled id="waiting">
                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                         Please wait while your data is being uploaded to database ...
                     </button>
@@ -54,9 +54,9 @@
     <script>
         $(document).on('submit', "#upload_form", function (e) {
             e.preventDefault();
-            $('#waiting').removeClass("visually-hidden");
-            $('#success').addClass("visually-hidden");
-            $('#error').addClass("visually-hidden");
+            $('#waiting_row').removeClass("d-none");
+            $('#success_row').addClass("d-none");
+            $('#error_row').addClass("d-none");
             var data = new FormData();
             data.append('file', $("input[id^='id_file']")[0].files[0]);
             data.append('csrfmiddlewaretoken', "{{ csrf_token }}");
@@ -70,17 +70,16 @@
                 success: function (data) {
                     document.getElementById('upload_form').reset();
                     if (data["error"] !== "") {
-                        $('#waiting').addClass("visually-hidden");
-                        $('#success').addClass("visually-hidden");
-                        $('#error').removeClass("visually-hidden");
+                        $('#waiting_row').addClass("d-none");
+                        $('#success_row').addClass("d-none");
+                        $('#error_row').removeClass("d-none");
                         $('#error').html(data["error"]);
                     } else {
-                        $('#waiting').addClass("visually-hidden");
-                        $('#error').addClass("visually-hidden");
-                        $('#success').removeClass("visually-hidden");
+                        $('#waiting_row').addClass("d-none");
+                        $('#error_row').addClass("d-none");
+                        $('#success_row').removeClass("d-none");
                         $('#success').html(data["success"]);
                     }
-                    $('#id_file').attr("value", "");
                 },
                 error: function () {
                     console.log("error")
