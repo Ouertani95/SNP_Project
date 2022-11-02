@@ -20,6 +20,14 @@ class FileUploader:
             self.original_name = request_file.name
         self.upload_name = f"{datetime.now().strftime('%Y_%m_%d_%X')}_{self.original_name}"
 
+    def file_is_tsv(self):
+        divided_file_name = self.original_name.split(".")
+        extension = divided_file_name[-1]
+        extension = extension.lower()
+        if extension == "tsv":
+            return True
+        return False
+
     def upload_file_locally(self):
         if self.cli_input:
             shutil.copy2(self.file, f'SNP_App/uploads/{self.upload_name}')

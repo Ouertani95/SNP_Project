@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Min
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django_serverside_datatable.views import ServerSideDatatableView
 
 from .forms import UploadFileForm
@@ -26,21 +26,25 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            # file is saved
             file_uploader = FileUploader(request.FILES['file'], cli_input=False)
-            file_uploader.upload_file_locally()
-            if file_uploader.has_all_fields():
-                file_uploader.clean_entries()
-                file_uploader.upload_content_to_database()
-                file_uploader.remove_files()
-                return JsonResponse({"error": "", "success": "Data successfully added to database"})
+            if file_uploader.file_is_tsv():
+                file_uploader.upload_file_locally()
+                if file_uploader.has_all_fields():
+                    file_uploader.clean_entries()
+                    file_uploader.upload_content_to_database()
+                    file_uploader.remove_files()
+                    return JsonResponse({"error": "", "success": "Data successfully added to database"})
+                else:
+                    file_uploader.remove_files()
+                    return JsonResponse({"error": "Wrong file format !<br>"
+                                                  "Please verify that your file contains at least the following fields:"
+                                                  "<br> "
+                                                  "PUBMEDID, JOURNAL, STUDY, DATE, CHR_ID, CHR_POS, SNPS, "
+                                                  "DISEASE/TRAIT, P-VALUE,PVALUE_MLOG",
+                                         "success": ""})
             else:
-                file_uploader.remove_files()
-                return JsonResponse({"error": "Wrong file format !<br>"
-                                              "Please verify that your file contains at least the following fields:<br> "
-                                              "PUBMEDID, JOURNAL, STUDY, DATE, CHR_ID, CHR_POS, SNPS, "
-                                              "DISEASE/TRAIT, P-VALUE,PVALUE_MLOG",
-                                     "success": ""})
+                return JsonResponse({"error": "Wrong file format !<br>Please use a tsv file.", "success": ""})
+
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form, 'title': "upload"})
