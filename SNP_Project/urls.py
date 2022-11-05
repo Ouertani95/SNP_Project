@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.display_home, name='home'),
     path('snp_search/', views.search_snp, name='snp_search'),
-    path('phenotype_search/', views.search_phenotype, name='phenotype_search'),
+    path('phenotype_list/', views.search_phenotype, name='phenotype_list'),
     path('upload/', views.upload_file, name='upload'),
     path("login/", LoginView.as_view(), name='login'),
     path("logout/", LogoutView.as_view(), name='logout'),
@@ -36,4 +36,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('services/', views.services, name='services'),
+    path('pheno_autocomplete/', views.pheno_autocomplete, name='pheno_autocomplete'),
+    path('phenotype_search/', views.pheno_auto_search, name='pheno_auto_search'),
 ]

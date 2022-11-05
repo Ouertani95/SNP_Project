@@ -18,7 +18,7 @@ def search_snp(request):
 
 
 def search_phenotype(request):
-    return render(request, 'phenotype.html', {'title': "Phenotype Search"})
+    return render(request, 'phenotype_list.html', {'title': "Phenotype Search"})
 
 
 @login_required(login_url='/login/')
@@ -93,3 +93,20 @@ def contact(request):
 
 def services(request):
     return render(request, 'services.html', {'title': "Services"})
+
+
+def pheno_autocomplete(request):
+    search = request.GET.get('search')
+    payload = []
+    if search and len(search) >= 3:
+        traits = DiseaseTrait.objects.filter(Disease_name__icontains=search)
+        for trait in traits:
+            payload.append({'trait': trait.Disease_name})
+    return JsonResponse({
+        'status': True,
+        'payload': payload
+    })
+
+
+def pheno_auto_search(request):
+    return render(request, 'phenotype_search.html')

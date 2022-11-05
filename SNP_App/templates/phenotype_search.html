@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container mt-5 pt-5">
+        <div class="row justify-content-center">
+            <div class="col-10 p-5 text-center bg-white rounded">
+                <div id="autocomplete" class="autocomplete">
+                    <label for="pheno" class="h1 mb-5">Search phenotype</label>
+                    <input class="autocomplete-input mt-5" id="pheno" placeholder="Search phenotype"/>
+                    <ul class="autocomplete-result-list"></ul>
+                </div>
+                <div class="text-start mt-2">Type at least 3 characters to start searching.</div>
+                <div class="text-start mt-2">Examples :
+                    <a href="/phenotype/details/Abdominal aortic aneurysm/">Abdominal aortic aneurysm </a>,
+                    <a href="/phenotype/details/Heart rate/">Heart rate </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Autocomplete('#autocomplete', {
+            search: input => {
+                const url = "{% url 'pheno_autocomplete' %}?search=" + input
+                return new Promise(resolve => {
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            resolve(data.payload)
+                        })
+                })
+            },
+            getResultValue: result => result.trait,
+            renderResult: (result, props) => `
+                            <li ${props}>
+                              <div class="text-start">
+                                ${result.trait}
+                              </div>
+                            </li>
+                          `,
+            autoSelect: true,
+            onSubmit: result => {
+                window.open('/phenotype/details/'+result.trait+'/', "_self")
+            }
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#page-top").addClass("bg-dark");
+        });
+    </script>
+
+
+
+{% endblock content %}

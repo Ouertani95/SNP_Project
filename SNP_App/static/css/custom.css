@@ -7,3 +7,5 @@
   color: #212529;
   text-align: center;
 }
+
+.dropdown-item:hover, .nav-link:hover{background-color: indianred;}
