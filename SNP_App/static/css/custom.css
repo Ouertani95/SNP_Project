@@ -8,4 +8,4 @@
   text-align: center;
 }
 
-.dropdown-item:hover, .nav-link:hover{background-color: indianred;}
+.nav-link.active, .dropdown-item:hover, .nav-link:hover, .btn:hover{background-color: indianred;}

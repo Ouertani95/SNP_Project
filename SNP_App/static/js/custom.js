@@ -5,7 +5,10 @@ $(document).ready(function() {
                 $("#page-top").addClass("bg-dark text-white");
         }
         else if (pathname==="/phenotype_search/"){
-                $("#phenotype_redirect").addClass("active");
+                $("#navbarDropdown").addClass("active");
+        }
+        else if (pathname==="/phenotype_list/"){
+                $("#navbarDropdown").addClass("active");
         }
         else if (pathname==="/snp_search/"){
                 $("#snp_redirect").addClass("active");
