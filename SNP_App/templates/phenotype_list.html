@@ -23,22 +23,9 @@
     </div>
 
 
-
-    <script>
-        $(document).ready(function () {
-            $('#phenotype_table').DataTable({
-                serverSide: true,
-                sAjaxSource: "{% url 'pheno_json' %}",  // new url
-                columns: [
-                    {
-                        data: 0, render: function (data) {
-                            return '<a target="_blank" rel="noopener noreferrer" ' +
-                                'href="/phenotype/details/' + data + '">' + data + '</a>';
-                        },
-                    }
-                ],
-            });
-        });
-    </script>
-
 {% endblock content %}
+
+{% block specific_js %}
+    {% load static %}
+    <script src="{% static 'js/phenotype_list.js' %}"></script>
+{% endblock specific_js %}

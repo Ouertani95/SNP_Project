@@ -22,5 +22,8 @@ $(document).ready(function() {
         else if (pathname==="/contact/"){
                 $("#contact_redirect").addClass("active");
         }
+        else if (pathname==="/login/"){
+                $("title").html("Login");
+        }
 
 });

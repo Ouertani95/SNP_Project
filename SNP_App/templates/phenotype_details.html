@@ -68,11 +68,8 @@
     </table>
 {% endblock table %}
 
-{% block table_script %}
-    <script>
-        $(document).ready(function () {
-            $('#phenotype_details_table').DataTable();
-        });
-    </script>
-{% endblock table_script %}
+{% block specific_js %}
+    {% load static %}
+    <script src="{% static 'js/phenotype_details.js' %}"></script>
+{% endblock specific_js %}
 

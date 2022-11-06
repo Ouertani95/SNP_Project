@@ -18,7 +18,7 @@ def search_snp(request):
 
 
 def search_phenotype(request):
-    return render(request, 'phenotype_list.html', {'title': "Phenotype Search"})
+    return render(request, 'phenotype_list.html', {'title': "Phenotype explore"})
 
 
 @login_required(login_url='/login/')
@@ -109,4 +109,4 @@ def pheno_autocomplete(request):
 
 
 def pheno_auto_search(request):
-    return render(request, 'phenotype_search.html')
+    return render(request, 'phenotype_search.html', {'title': "Phenotype search"})

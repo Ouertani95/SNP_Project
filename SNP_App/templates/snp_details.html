@@ -75,11 +75,8 @@
     </table>
 {% endblock table %}
 
-{% block table_script %}
-    <script>
-        $(document).ready(function () {
-            $('#snp_details_table').DataTable();
-        });
-    </script>
-{% endblock table_script %}
+{% block specific_js %}
+    {% load static %}
+    <script src="{% static 'js/snp_details.js' %}"></script>
+{% endblock specific_js %}
 
