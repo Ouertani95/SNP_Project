@@ -1,0 +1,6 @@
+__pycache__
+SNP_App/__pycache__
+SNP_App/migrations/__pycache__
+SNP_App/management/commands/__pycache__
+SNP_App/scripts/__pycache__
+SNP_Project/__pycache__
