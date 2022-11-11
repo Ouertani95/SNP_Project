@@ -12,6 +12,7 @@ $(document).ready(function() {
         }
         else if (pathname==="/snp_search/"){
                 $("#snp_redirect").addClass("active");
+                $("#nav-home-tab").addClass("active");
         }
         else if (pathname==="/about/"){
                 $("#about_redirect").addClass("active");

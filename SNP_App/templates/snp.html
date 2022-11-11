@@ -2,8 +2,7 @@
 
 {% block content %}
 
-    <h1 class="text-center mt-5 pt-5"> SNP search </h1>
-    <p class="text-center"> Here you can search the different SNPs present in the database </p>
+    <h1 class="text-center mt-5 pt-5"> SNP results </h1>
     <div class="container pt-2 mb-5">
         <div class="row justify-content-center">
             <div class="col-10">
@@ -25,7 +24,15 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                    {% for result in results %}
+                        <tr>
+                            <td><a target="_blank" rel="noopener noreferrer"
+                                   href="/snp/details/{{ result.Rsid }}/">
+                                {{ result.Rsid }} </a></td>
+                            <td>{{ result.Chrom }}</td>
+                            <td>{{ result.Chrom_pos }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>

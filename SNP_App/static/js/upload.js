@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $("label").addClass("form-label");
-    $("#id_file").addClass("form-control mt-4");
     $("#page-top").addClass("bg-dark");
 });
 

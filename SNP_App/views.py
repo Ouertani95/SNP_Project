@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django_serverside_datatable.views import ServerSideDatatableView
 
-from .forms import UploadFileForm
+from .forms import UploadFileForm, SnpSearchChromForm, SnpSearchRsidForm
 from .models import SNP, DiseaseTrait, Association
 from .scripts.upload_data import FileUploader
 
@@ -14,7 +14,47 @@ def display_home(request):
 
 
 def search_snp(request):
-    return render(request, 'snp.html', {'title': "SNP search"})
+    chrom_search_form = SnpSearchChromForm()
+    rsid_search_form = SnpSearchRsidForm()
+    if request.method == "POST":
+        form_id = request.POST.get("formId")
+        if form_id == "snp_chrom_search":
+            form = SnpSearchChromForm(request.POST)
+            if form.is_valid():
+                chrom = request.POST.get("chromosome")
+                region = request.POST.get("region")
+                if region:
+                    region = region.strip()
+                    region = region.split(":")
+                    if region[0] > region[1]:
+                        error = "Region : Start position can't be bigger than end position."
+                        return render(request, 'snp_search_forms.html', {'title': "SNP search",
+                                                                         'chrom_form': chrom_search_form,
+                                                                         'rsid_form': rsid_search_form,
+                                                                         'errors': error})
+                    query = SNP.objects.filter(Chrom=chrom, Chrom_pos__range=(region[0], region[1]))
+                else:
+                    query = SNP.objects.filter(Chrom=chrom)
+                return render(request, 'snp.html', {"results": query})
+
+            else:
+                return render(request, 'snp_search_forms.html', {'title': "SNP search",
+                                                                 'chrom_form': chrom_search_form,
+                                                                 'rsid_form': rsid_search_form,
+                                                                 'errors': form.errors})
+        else:
+            form = SnpSearchRsidForm(request.POST)
+            rsid_string = request.POST.get("rsid")
+            rsid_string = rsid_string.strip()
+            rsid_list = rsid_string.split(" ")
+            query = SNP.objects.filter(Rsid__in=rsid_list)
+            if form.is_valid():
+                return render(request, 'snp.html', {"results": query})
+
+    else:
+        return render(request, 'snp_search_forms.html', {'title': "SNP search",
+                                                         'chrom_form': chrom_search_form,
+                                                         'rsid_form': rsid_search_form})
 
 
 def search_phenotype(request):
