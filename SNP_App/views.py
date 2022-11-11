@@ -26,7 +26,7 @@ def search_snp(request):
                 if region:
                     region = region.strip()
                     region = region.split(":")
-                    if region[0] > region[1]:
+                    if int(region[0]) > int(region[1]):
                         error = "Region : Start position can't be bigger than end position."
                         return render(request, 'snp_search_forms.html', {'title': "SNP search",
                                                                          'chrom_form': chrom_search_form,
