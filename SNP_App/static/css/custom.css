@@ -9,3 +9,7 @@
 }
 
 .nav-link.active, .dropdown-item:hover, .nav-link:hover, .btn:hover{background-color: indianred;}
+.nav-link.border.active {
+  background-color: #212529;
+  color: white;
+}
