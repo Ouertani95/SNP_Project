@@ -35,7 +35,7 @@ def search_snp(request):
                     query = SNP.objects.filter(Chrom=chrom, Chrom_pos__range=(region[0], region[1]))
                 else:
                     query = SNP.objects.filter(Chrom=chrom)
-                return render(request, 'snp.html', {"results": query})
+                return render(request, 'snp.html', {"results": query, 'title': "SNP results"})
 
             else:
                 return render(request, 'snp_search_forms.html', {'title': "SNP search",
@@ -49,7 +49,7 @@ def search_snp(request):
             rsid_list = rsid_string.split(" ")
             query = SNP.objects.filter(Rsid__in=rsid_list)
             if form.is_valid():
-                return render(request, 'snp.html', {"results": query})
+                return render(request, 'snp.html', {"results": query, 'title': "SNP results"})
 
     else:
         return render(request, 'snp_search_forms.html', {'title': "SNP search",
