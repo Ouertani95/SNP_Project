@@ -50,10 +50,15 @@ class FileUploader:
                                          delimiter="\t",
                                          dtype={'CHR_ID': str, 'CHR_POS': str,
                                                 'P-VALUE': float, 'PVALUE_MLOG': float})
+        # Filter the data
         uploaded_dataframe = uploaded_dataframe.dropna(subset=self.REQUIRED_FIELDS)
         uploaded_dataframe = uploaded_dataframe[uploaded_dataframe.CHR_POS.apply(lambda x: x.isnumeric())]
+        uploaded_dataframe = uploaded_dataframe[uploaded_dataframe.SNPS.str.match("^rs[0-9]+$")]
+        # Format the data
         uploaded_dataframe['CHR_POS'] = uploaded_dataframe['CHR_POS'].astype(int)
+        uploaded_dataframe['DISEASE/TRAIT'] = uploaded_dataframe['DISEASE/TRAIT'].apply(lambda x: x.replace("/", "-"))
         uploaded_dataframe['PVALUE_MLOG'] = uploaded_dataframe['PVALUE_MLOG'].round(2)
+        # Save to file
         clean_file_name = "cleaned_"+self.upload_name
         uploaded_dataframe.to_csv(path_or_buf=f'SNP_App/uploads/{clean_file_name}', sep="\t", index=False)
         self.original_name = self.upload_name
