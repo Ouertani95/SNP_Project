@@ -2,10 +2,48 @@
 
 {% block content %}
 
-    <h1 class="text-center mt-5 pt-5"> SNP results </h1>
-    <div class="container pt-2 mb-5">
+    <div class="container mt-5 pt-5 mb-5">
         <div class="row justify-content-center">
-            <div class="col-10">
+            <div class="col">
+
+                <h1 class="text-center pb-5"> SNP results </h1>
+
+                <div class="accordion mb-5" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseOne">
+                                <b>Search request</b>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                             aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                <div class="container p-2">
+                                    <div class="row gy-2">
+                                        {% if search_request.chrom %}
+                                        <div class="col-6">
+                                            <b>Chromosome : </b>
+                                            {{ search_request.chrom }}
+                                        </div>
+                                        <div class="col-6">
+                                            <b>Chromosome region : </b>
+                                            {{ search_request.region}}
+                                        </div>
+                                        {% else %}
+                                        <div class="col-6">
+                                            <b>Rsid list : </b>
+                                            {{ search_request.rsid }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <table id="snp_table" class="table table-striped table-bordered shadow-lg rounded">
                     <thead class="table-dark rounded">
                     <tr id="snp_inputs">
@@ -41,5 +79,5 @@
 
 {% block specific_js %}
     {% load static %}
-    <script src="{% static 'js/snp.js' %}"></script>
+    <script src="{% static 'js/snp_results.js' %}"></script>
 {% endblock specific_js %}

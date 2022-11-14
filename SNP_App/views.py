@@ -13,54 +13,6 @@ def display_home(request):
     return render(request, 'home.html', {'title': "Home"})
 
 
-def search_snp(request):
-    chrom_search_form = SnpSearchChromForm()
-    rsid_search_form = SnpSearchRsidForm()
-    if request.method == "POST":
-        form_id = request.POST.get("formId")
-        if form_id == "snp_chrom_search":
-            form = SnpSearchChromForm(request.POST)
-            if form.is_valid():
-                chrom = request.POST.get("chromosome")
-                region = request.POST.get("region")
-                if region:
-                    region = region.strip()
-                    region = region.split(":")
-                    if int(region[0]) > int(region[1]):
-                        error = "Region : Start position can't be bigger than end position."
-                        return render(request, 'snp_search_forms.html', {'title': "SNP search",
-                                                                         'chrom_form': chrom_search_form,
-                                                                         'rsid_form': rsid_search_form,
-                                                                         'errors': error})
-                    query = SNP.objects.filter(Chrom=chrom, Chrom_pos__range=(region[0], region[1]))
-                else:
-                    query = SNP.objects.filter(Chrom=chrom)
-                return render(request, 'snp.html', {"results": query, 'title': "SNP results"})
-
-            else:
-                return render(request, 'snp_search_forms.html', {'title': "SNP search",
-                                                                 'chrom_form': chrom_search_form,
-                                                                 'rsid_form': rsid_search_form,
-                                                                 'errors': form.errors})
-        else:
-            form = SnpSearchRsidForm(request.POST)
-            rsid_string = request.POST.get("rsid")
-            rsid_string = rsid_string.strip()
-            rsid_list = rsid_string.split(" ")
-            query = SNP.objects.filter(Rsid__in=rsid_list)
-            if form.is_valid():
-                return render(request, 'snp.html', {"results": query, 'title': "SNP results"})
-
-    else:
-        return render(request, 'snp_search_forms.html', {'title': "SNP search",
-                                                         'chrom_form': chrom_search_form,
-                                                         'rsid_form': rsid_search_form})
-
-
-def search_phenotype(request):
-    return render(request, 'phenotype_list.html', {'title': "Phenotype explore"})
-
-
 @login_required(login_url='/login/')
 def upload_file(request):
     if request.method == 'POST':
@@ -90,9 +42,91 @@ def upload_file(request):
     return render(request, 'upload.html', {'form': form, 'title': "upload"})
 
 
+def search_snp(request):
+    chrom_search_form = SnpSearchChromForm()
+    rsid_search_form = SnpSearchRsidForm()
+    if request.method == "POST":
+        form_id = request.POST.get("formId")
+        if form_id == "snp_chrom_search":
+            form = SnpSearchChromForm(request.POST)
+            if form.is_valid():
+                chrom = request.POST.get("chromosome")
+                region = request.POST.get("region")
+                search_request = {"chrom": chrom, "region": region, "rsid": ""}
+                if region:
+                    region = region.strip()
+                    region = region.split(":")
+                    if int(region[0]) > int(region[1]):
+                        error = "Region : Start position can't be bigger than end position."
+                        return render(request, 'snp_search_forms.html', {'title': "SNP search",
+                                                                         'chrom_form': chrom_search_form,
+                                                                         'rsid_form': rsid_search_form,
+                                                                         'errors': error})
+                    query = SNP.objects.filter(Chrom=chrom, Chrom_pos__range=(region[0], region[1]))
+                else:
+                    query = SNP.objects.filter(Chrom=chrom)
+
+                return render(request, 'snp_results.html', {"results": query, 'title': "SNP results",
+                                                            "search_request": search_request})
+
+            else:
+                return render(request, 'snp_search_forms.html', {'title': "SNP search",
+                                                                 'chrom_form': chrom_search_form,
+                                                                 'rsid_form': rsid_search_form,
+                                                                 'errors': form.errors})
+        else:
+            form = SnpSearchRsidForm(request.POST)
+            rsid_string = request.POST.get("rsid")
+            rsid_string = rsid_string.strip()
+            rsid_list = rsid_string.split(" ")
+            query = SNP.objects.filter(Rsid__in=rsid_list)
+            search_request = {"chrom": "", "region": "", "rsid": rsid_string}
+            if form.is_valid():
+                return render(request, 'snp_results.html', {"results": query, 'title': "SNP results",
+                                                            "search_request": search_request})
+
+    else:
+        return render(request, 'snp_search_forms.html', {'title': "SNP search",
+                                                         'chrom_form': chrom_search_form,
+                                                         'rsid_form': rsid_search_form})
+
+
 class SNPListView(ServerSideDatatableView):
     queryset = SNP.objects.all()
     columns = ['Rsid', 'Chrom', 'Chrom_pos']
+
+
+def snp_details(request, rsid):
+    association_query = Association.objects.filter(SNP_id=rsid)
+    snp_query = SNP.objects.get(Rsid=rsid)
+    min_pvalue = association_query.aggregate(Min('Pvalue'))
+    phenotype_min_pvalue = association_query.filter(Pvalue=min_pvalue['Pvalue__min'])
+    number_studies = association_query.values('Reference').distinct().count()
+    return render(request, 'snp_details.html',
+                  {'details': association_query, 'detail_name': rsid, 'detail_type': 'SNP',
+                   'title': rsid, 'studies': number_studies, 'snp': snp_query,
+                   'min_pvalue': min_pvalue, 'phenotype_min_pvalue': phenotype_min_pvalue})
+
+
+def pheno_auto_search(request):
+    return render(request, 'phenotype_search.html', {'title': "Phenotype search"})
+
+
+def pheno_autocomplete(request):
+    search = request.GET.get('search')
+    payload = []
+    if search and len(search) >= 3:
+        traits = DiseaseTrait.objects.filter(Disease_name__icontains=search)
+        for trait in traits:
+            payload.append({'trait': trait.Disease_name})
+    return JsonResponse({
+        'status': True,
+        'payload': payload
+    })
+
+
+def search_phenotype(request):
+    return render(request, 'phenotype_list.html', {'title': "Phenotype explore"})
 
 
 class DiseaseTraitListView(ServerSideDatatableView):
@@ -111,18 +145,6 @@ def phenotype_details(request, name):
                    'snp_min_pvalue': snp_min_pvalue})
 
 
-def snp_details(request, rsid):
-    association_query = Association.objects.filter(SNP_id=rsid)
-    snp_query = SNP.objects.get(Rsid=rsid)
-    min_pvalue = association_query.aggregate(Min('Pvalue'))
-    phenotype_min_pvalue = association_query.filter(Pvalue=min_pvalue['Pvalue__min'])
-    number_studies = association_query.values('Reference').distinct().count()
-    return render(request, 'snp_details.html',
-                  {'details': association_query, 'detail_name': rsid, 'detail_type': 'SNP',
-                   'title': rsid, 'studies': number_studies, 'snp': snp_query,
-                   'min_pvalue': min_pvalue, 'phenotype_min_pvalue': phenotype_min_pvalue})
-
-
 def about(request):
     return render(request, 'about.html', {'title': "About"})
 
@@ -130,23 +152,3 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html', {'title': "Contact"})
 
-
-def services(request):
-    return render(request, 'services.html', {'title': "Services"})
-
-
-def pheno_autocomplete(request):
-    search = request.GET.get('search')
-    payload = []
-    if search and len(search) >= 3:
-        traits = DiseaseTrait.objects.filter(Disease_name__icontains=search)
-        for trait in traits:
-            payload.append({'trait': trait.Disease_name})
-    return JsonResponse({
-        'status': True,
-        'payload': payload
-    })
-
-
-def pheno_auto_search(request):
-    return render(request, 'phenotype_search.html', {'title': "Phenotype search"})
