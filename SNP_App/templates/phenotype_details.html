@@ -16,14 +16,14 @@
 
             <a target="_blank" rel="noopener noreferrer"
                href="/snp/details/{{ snp_min_pvalue.first.SNP_id }}/">
-                {{ snp_min_pvalue.first.SNP_id}} </a>
+                {{ snp_min_pvalue.first.SNP_id }} </a>
 
         {% else %}
 
             {% for snp in snp_min_pvalue %}
                 <a target="_blank" rel="noopener noreferrer"
-               href="/snp/details/{{ snp.SNP_id }}/">
-                {{ snp.SNP_id }} </a>,
+                   href="/snp/details/{{ snp.SNP_id }}/">
+                    {{ snp.SNP_id }} </a>,
             {% endfor %}
 
         {% endif %}
@@ -37,19 +37,21 @@
 {% block table %}
     <table id="phenotype_details_table" class="table table-striped table-bordered shadow-lg rounded">
         <thead class="table-dark text-center">
-        <th> Related variant <i class="bi bi-info-circle text-info"
-                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                title="Rsid of the variant proven to have an association with the phenotype"></i>
-        </th>
-        <th> Study article <i class="bi bi-info-circle text-info"
-                              data-bs-toggle="tooltip" data-bs-placement="top"
-                              title="Pubmedid and link of the study article mentioning the association between the phenotype and the variant"></i>
-        </th>
-        <th> P-value <i class="bi bi-info-circle text-info"
-                        data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="Reported p-value for strongest SNP risk allele (linked to dbGaP Association Browser)"></i>
-        </th>
-        <th> -log10 (P-value)</th>
+        <tr>
+            <th> Related variant <i class="bi bi-info-circle text-info"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="Rsid of the variant proven to have an association with the phenotype"></i>
+            </th>
+            <th> Study article <i class="bi bi-info-circle text-info"
+                                  data-bs-toggle="tooltip" data-bs-placement="top"
+                                  title="Pubmedid and link of the study article mentioning the association between the phenotype and the variant"></i>
+            </th>
+            <th> P-value <i class="bi bi-info-circle text-info"
+                            data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Reported p-value for strongest SNP risk allele (linked to dbGaP Association Browser)"></i>
+            </th>
+            <th> -log10 (P-value)</th>
+        </tr>
         </thead>
         <tbody>
         {% for detail in details %}
