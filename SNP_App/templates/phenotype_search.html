@@ -2,13 +2,15 @@
 
 {% block content %}
 
-    <div class="container mt-5 pt-5">
+    <div class="container mt-5 pt-5 mb-5 pb-5">
         <div class="row justify-content-center">
             <div class="col-10 p-5 text-center bg-white rounded">
                 <div id="autocomplete" class="autocomplete">
-                    <label for="pheno" class="h1">Search phenotype</label>
-                    <p class="text-center mb-5"> Here you can search the different phenotypes present in the database </p>
-                    <input class="autocomplete-input mt-5" id="pheno" placeholder="Search phenotype"/>
+                     <div class="mb-5 pt-2 pb-2 bg-dark bg-gradient text-white rounded">
+                        <label for="pheno" class="h1">Search phenotype</label>
+                        <p class="text-center"> Here you can search the different phenotypes present in the database </p>
+                     </div>
+                    <input class="autocomplete-input mt-2" id="pheno" placeholder="Search phenotype"/>
                     <ul class="autocomplete-result-list"></ul>
                 </div>
                 <div class="text-start mt-2">Type at least 3 characters to start searching.</div>
@@ -18,6 +20,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <-- Filling containers -->
+    <div class="mb-4 pb-4">
+    </div>
+    <div class="mb-1 pb-1">
     </div>
 
 {% endblock content %}

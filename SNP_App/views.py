@@ -10,7 +10,7 @@ from .scripts.upload_data import FileUploader
 
 
 def display_home(request):
-    return render(request, 'home.html', {'title': "Home", 'body_class': "bg-dark"})
+    return render(request, 'home.html', {'title': "Home", 'body_class': "bg-dark bg-gradient"})
 
 
 @login_required(login_url='/login/')
@@ -39,7 +39,8 @@ def upload_file(request):
 
     else:
         form = UploadFileForm()
-    return render(request, 'upload.html', {'form': form, 'title': "upload", 'body_class': "bg-dark"})
+    return render(request, 'upload.html', {'form': form, 'title': "upload",
+                                           'body_class': "bg-dark bg-gradient"})
 
 
 def search_snp(request):
@@ -61,7 +62,8 @@ def search_snp(request):
                         return render(request, 'snp_search_forms.html', {'title': "SNP search",
                                                                          'chrom_form': chrom_search_form,
                                                                          'rsid_form': rsid_search_form,
-                                                                         'errors': error})
+                                                                         'errors': error,
+                                                                         'body_class': "bg-dark bg-gradient"})
                     query = SNP.objects.filter(Chrom=chrom, Chrom_pos__range=(region[0], region[1]))
                 else:
                     query = SNP.objects.filter(Chrom=chrom)
@@ -74,7 +76,7 @@ def search_snp(request):
                                                                  'chrom_form': chrom_search_form,
                                                                  'rsid_form': rsid_search_form,
                                                                  'errors': form.errors,
-                                                                 'body_class': "bg-dark"})
+                                                                 'body_class': "bg-dark bg-gradient"})
         else:
             form = SnpSearchRsidForm(request.POST)
             rsid_string = request.POST.get("rsid")
@@ -90,7 +92,7 @@ def search_snp(request):
         return render(request, 'snp_search_forms.html', {'title': "SNP search",
                                                          'chrom_form': chrom_search_form,
                                                          'rsid_form': rsid_search_form,
-                                                         'body_class': "bg-dark"})
+                                                         'body_class': "bg-dark bg-gradient"})
 
 
 class SNPListView(ServerSideDatatableView):
@@ -111,7 +113,8 @@ def snp_details(request, rsid):
 
 
 def pheno_auto_search(request):
-    return render(request, 'phenotype_search.html', {'title': "Phenotype search", 'body_class': "bg-dark"})
+    return render(request, 'phenotype_search.html', {'title': "Phenotype search",
+                                                     'body_class': "bg-dark bg-gradient"})
 
 
 def pheno_autocomplete(request):
@@ -148,9 +151,9 @@ def phenotype_details(request, name):
 
 
 def about(request):
-    return render(request, 'about.html', {'title': "About", 'body_class': "bg-dark"})
+    return render(request, 'about.html', {'title': "About", 'body_class': "bg-dark bg-gradient"})
 
 
 def contact(request):
-    return render(request, 'contact.html', {'title': "Contact", 'body_class': "bg-dark"})
+    return render(request, 'contact.html', {'title': "Contact", 'body_class': "bg-dark bg-gradient"})
 
