@@ -2,7 +2,6 @@ $(document).ready(function() {
         let pathname = window.location.pathname;
         $(".nav-link").removeClass("active");
         if (pathname==="/"){
-                $("#page-top").addClass("bg-dark text-white");
         }
         else if (pathname==="/phenotype_search/"){
                 $("#navbarDropdown").addClass("active");

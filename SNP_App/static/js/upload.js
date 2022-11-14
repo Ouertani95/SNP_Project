@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $("label").addClass("form-label");
-    $("#page-top").addClass("bg-dark");
 });
 
 $(document).on('submit', "#upload_form", function (e) {

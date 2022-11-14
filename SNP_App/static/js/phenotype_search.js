@@ -1,7 +1,3 @@
-$(document).ready(function () {
-    $("#page-top").addClass("bg-dark");
-});
-
 new Autocomplete('#autocomplete', {
     search: input => {
         const url = "/pheno_autocomplete/?search=" + input
