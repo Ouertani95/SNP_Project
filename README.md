@@ -9,6 +9,7 @@
 
 ## About :
 - This web app allows for searching a database for information about SNPs and phenotypes and their associations.
+- A live version of the website is available [here](https://hamma95.pythonanywhere.com/).
 
 ## Prerequisites :
 - It is advised to install [Anaconda](https://www.anaconda.com/products/distribution) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)  on your system to run this website properly.
